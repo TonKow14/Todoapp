@@ -6,7 +6,13 @@ block content
           h1.text-center= nameGroup
           .card.bg-light
             .card-body
+              // Form for editing nameGroup
+              form.text-center(action=`/edit-group/${nameGroup}`, method="post")
+                input.form-control(type="text" name="nameGroup" value=nameGroup placeholder="ชื่อกลุ่ม..." required)
+                button.btn.btn-primary.mt-3(type="submit") บันทึกชื่อกลุ่ม
 
+            .card-body
+              form(action="/updateGroup", method="post")
               form.text-center(action=`/todos/${nameGroup}`, method="post")
                 input.form-control(type="text" name="text" placeholder="ระบุรายการ..." required)
                 button.btn.btn-primary.mt-3 เพิ่มรายการ
