@@ -1,0 +1,28 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+  .container
+    a.navbar-brand(href="/") Myapp
+    button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarContents")
+      span.navbar-toggler-icon
+    #navbarContents.collapse.navbar-collapse
+      ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        li.nav-item
+          a.nav-link(href="") placeholder
+        li.nav-item
+          a.nav-link(href="/profile") ผู้ใช้ทั้งหมด
+      ul.navbar-nav
+        if !auth
+          li.nav-item
+            a.nav-link(href="/auth/login") เข้าสู่ระบบ
+          li.nav-item
+            a.btn.btn-outline-primary.ms-md-3(href="/auth/register") สมัครสมาชิก
+        else
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle.pointer.unselectable(data-bs-toggle="dropdown")= auth.username
+            ul.dropdown-menu
+              li
+                a.dropdown-item.no-copy(href=`/profile/${auth.username}`) โปรไฟล์
+              li
+                hr.dropdown-divider
+              li
+                a.dropdown-item(href="/auth/logout") ออกจากระบบ
+

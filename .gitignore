@@ -1,0 +1,6 @@
+node_modules/
+.env.prod
+temp/*
+!temp/.gitkeep
+public/avatars/*
+!public/avatars/.gitkeep

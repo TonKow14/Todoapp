@@ -1,0 +1,45 @@
+extends ../layouts/auth
+
+block content
+  h2.mb-5
+    i.bi.bi-person-plus.me-2
+    span สมัครสมาชิก
+  form(action="/auth/register" method="post")
+    .form-floating.mb-4
+      input.form-control.form-control-sm(type="text" id="inputUser" name="username" placeholder="กรุณาใส่อีเมล..." required)
+      label(for="inputUser")
+        i.bi.bi-file-person
+        span.ms-1 ชื่อผู้ใช้:
+    .form-floating.mb-4
+      input.form-control.form-control-sm(type="email" id="inputEmail" name="email" placeholder="กรุณาใส่อีเมล..." required)
+      label(for="inputEmail")
+        i.bi.bi-envelope
+        span.ms-1 อีเมล:
+    .form-floating.mb-4
+      input.form-control.form-control-sm(type="password" id="inputPassword" name="password" placeholder="กรุณารหัสผ่าน..." required)
+      label(for="inputPassword")
+        i.bi.bi-key
+        span.ms-1 รหัสผ่าน:
+    .form-floating.mb-4
+      input.form-control.form-control-sm(type="password" id="inputPassword2" name="passwordRp" placeholder="กรุณารหัสผ่าน..." required)
+      label(for="inputPassword2")
+        i.bi.bi-key
+        span.ms-1 ยันยันรหัสผ่าน:
+    .form-floating.mb-4
+      input.form-control.form-control-sm(type="date" id="inputBirthdate" name="birthdate" required)
+      label(for="inputBirthdate")
+        i.bi.bi-balloon
+        span.ms-1 วันเกิด:
+    .row.mb-4
+      .col
+        a.float-end.text-primary(href="/auth/login") เข้าสู่ระบบ
+    .d-grid.gap-2.mx-auto
+      button.btn.btn-md.btn-secondary สมัครสมาชิก
+    .separator.text-secondary Or
+    .d-grid.gap-2.mx-auto
+      a.btn.btn-primary(href="" style="background-color: #3b5998; --bs-btn-border-color: #3b5998;")
+        i.bi.bi-facebook.me-2
+        span เข้าสู่ระบบด้วย Facebook
+      a.btn.btn-danger(href="" style="background-color: #dd4b39;  --bs-btn-border-color: #dd4b39; --bs-btn-hover-bg: #dd4b39;")
+        i.bi.bi-google.me-2
+        span เข้าสู่ระบบด้วย Google

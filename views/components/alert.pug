@@ -1,0 +1,11 @@
+if ( alert.success && alert.success.length > 0 )
+  .alert.alert-success
+    ul(style="list-style-type: none;").m-0
+      each message in alert.success
+        li= message
+
+if ( alert.error && alert.error.length > 0 )
+  .alert.alert-danger
+    ul(style="list-style-type: none;").m-0
+      each message in alert.error
+        li= message
