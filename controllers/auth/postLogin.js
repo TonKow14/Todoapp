@@ -3,9 +3,12 @@ const validateLogin = require('../../validations/Login')
 
 module.exports = [
   validateLogin,
-  async (req, res, next) => {
+   (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-      if (err) return next(err)
+      if (err) {
+        req.flash('error', err.message)
+        return res.redirect('/auth/login')
+      }
       if (!user) {
         req.flash('error', info.message)
         return res.redirect('/auth/login')

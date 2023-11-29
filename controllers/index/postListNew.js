@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
   try {
     // Find the group based on the name
     const group = await Groups.findOne({ name: nameGroup });
-    console.log(group);
     if (!group) {
       // If the group doesn't exist, you may want to handle this case accordingly
       console.error(`Group '${nameGroup}' not found`);

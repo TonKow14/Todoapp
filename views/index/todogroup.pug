@@ -1,30 +1,48 @@
-extends ../layouts/feed
+extends ../_layouts/feed
 
 block content
   .row.justify-content-center
-        .col-12.col-md-6
-          h1.text-center= nameGroup
-          .card.bg-light
-            .card-body
-              // Form for editing nameGroup
-              form.text-center(action=`/edit-group/${nameGroup}`, method="post")
-                input.form-control(type="text" name="nameGroup" value=nameGroup placeholder="ชื่อกลุ่ม..." required)
-                button.btn.btn-primary.mt-3(type="submit") บันทึกชื่อกลุ่ม
+    .col-12.col-md-6
+      h1.text-center= nameGroup
+      .card.bg-light
+        .card-body
+          // Form for editing nameGroup
+          form.text-center(action=`/edit-group/${nameGroup}`, method="post")
+            input.form-control(type="text" name="nameGroup" value=nameGroup placeholder="ชื่อกลุ่ม..." required)
+            button.btn.btn-primary.mt-3(type="submit") บันทึกชื่อกลุ่ม
 
-            .card-body
-              form(action="/updateGroup", method="post")
-              form.text-center(action=`/todos/${nameGroup}`, method="post")
-                input.form-control(type="text" name="text" placeholder="ระบุรายการ..." required)
-                button.btn.btn-primary.mt-3 เพิ่มรายการ
-              .card-body
-                ul.list-group
-                  each list in lists
-                    li.list-group-item.d-flex.align-items-center
-                      span.me-auto=list.body
-                      form.d-none.me-auto(action=`/todos/${list._id}?_method=put` method="post")
-                        .input-group
-                          input.form-control.form-control-sm(type="text" name="text" value=list.text)
-                          button.btn.btn-success.btn-sm บันทึก
-                      button.btn.btn-warning.btn-sm.me-1(type="button" onclick="editTodo(event)") แก้ไข
-                      form(action=`/todos/${list._id}?_method=delete`, method="post")
-                        button.btn.btn-danger.btn-sm ลบ
+        .card-body
+          form(action="/updateGroup", method="post")
+          form.text-center(action=`/todos/${nameGroup}`, method="post")
+            input.form-control(type="text" name="text" placeholder="ระบุรายการ..." required)
+            button.btn.btn-primary.mt-3 เพิ่มรายการ
+          .card-body
+            ul.list-group
+              each list in lists
+                li.list-group-item.d-flex.align-items-center
+                    a.form-check-input.me-1(type="checkbox" onchange="toggleDone(event)" checked=list.isDone)
+                  span.me-auto=list.body
+                  form.d-none.me-auto(action=`/todos/${list._id}?_method=put` method="post")
+                    .input-group
+                      input.form-control.form-control-sm(type="text" name="text" value=list.body)
+                      button.btn.btn-success.btn-sm(type="submit") บันทึก
+                  button.btn.btn-secondary.btn-sm.me-1(type="button" onclick="editTodo(event)") แก้ไข
+                  form(action=`/todos/${list._id}?_method=delete`, method="post")
+                    button.btn.btn-danger.btn-sm ลบ
+  script.
+    function editTodo(event) {
+      const listItem = event.target.closest('li');
+      listItem.querySelector('span.me-auto').classList.add('d-none');
+      listItem.querySelector('form.d-none').classList.remove('d-none');
+    }
+
+    function toggleDone(event) {
+      const listItem = event.target.closest('li');
+      listItem.classList.toggle('done');
+    }
+
+    function saveEdit(event) {
+      const listItem = event.target.closest('li');
+      listItem.querySelector('span.me-auto').classList.remove('d-none');
+      listItem.querySelector('form.d-none').classList.add('d-none');
+    }

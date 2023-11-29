@@ -9,6 +9,10 @@ const schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Groups',
     required: true
+  },
+  isDone: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true })
 
