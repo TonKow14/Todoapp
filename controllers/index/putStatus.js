@@ -1,21 +1,26 @@
+const Lists = require('../../Models/Lists');
+
+// Route to handle the list status update
 module.exports = async (req, res) => {
-  const Lists = require('../../Models/Lists');
-  const listId = req.params.listId
+  const { listId } = req.params;
 
   try {
-    const updatedList = await Lists.findByIdAndUpdate(
-      listId,
-      { isDone: true },
-      { new: true }
-    );
+    // Find the list by ID
+    const list = await Lists.findById(listId);
 
-    if (!updatedList) {
-      return res.send('List not found');
+    if (!list) {
+      return res.status(404).json({ error: 'List not found' });
     }
 
-    res.redirect('back');
-  } catch (err) {
-    req.flash('error', err.message)
-    res.redirect('/error-page'); // Handle error redirection
+    // Toggle the isDone field
+    list.isDone = !list.isDone;
+
+    // Save the updated list
+    await list.save();
+
+    res.redirect('back')
+  } catch (error) {
+    console.error('Error updating list status:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }

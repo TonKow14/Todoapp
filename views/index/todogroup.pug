@@ -3,14 +3,15 @@ extends ../_layouts/feed
 block content
   .row.justify-content-center
     .col-12.col-md-6
-      h1.text-center= nameGroup
+      h1.text-center= group.name
       .card.bg-light
         .card-body
-          // Form for editing nameGroup
-          form.text-center(action=`/edit-group/${nameGroup}`, method="post")
-            input.form-control(type="text" name="nameGroup" value=nameGroup placeholder="ชื่อกลุ่ม..." required)
-            button.btn.btn-primary.mt-3(type="submit") บันทึกชื่อกลุ่ม
-
+          form.text-center(action=`/edit-group/${group._id}?_method=put`, method="post")
+            .input-group.input-group-sm
+              input#groupInput.form-control(type="text" value=group.name name="nameGroup" readonly aria-describedby="button-addon2")
+              button.d-none.btn.btn-success.btn-sm(type="submit") บันทึก
+              button.btn.btn-secondary.btn-sm(type="button" id="button-addon2")
+                i.bi.bi-pencil
         .card-body
           form(action="/updateGroup", method="post")
           form.text-center(action=`/todos/${nameGroup}`, method="post")
@@ -20,7 +21,9 @@ block content
             ul.list-group
               each list in lists
                 li.list-group-item.d-flex.align-items-center
-                    a.form-check-input.me-1(type="checkbox" onchange="toggleDone(event)" checked=list.isDone)
+                  //ตรงนี้ มีปัญหา ต้องแก้ไข
+                  //- input.form-check-input(type="checkbox", id=`toggle-${list._id}`, onchange=`toggleStatus('${list._id}', ${list.isDone})`, checked=list.isDone)
+                  //- label.form-check-label(for=`toggle-${list._id}`, class="btn btn-sm btn-outline-primary")= list.isDone ? '1' : '0'
                   span.me-auto=list.body
                   form.d-none.me-auto(action=`/todos/${list._id}?_method=put` method="post")
                     .input-group
@@ -36,13 +39,49 @@ block content
       listItem.querySelector('form.d-none').classList.remove('d-none');
     }
 
-    function toggleDone(event) {
-      const listItem = event.target.closest('li');
-      listItem.classList.toggle('done');
+    function toggleStatus(listId, isDone) {
+    // Make an AJAX request to update the server
+    fetch(`/update-list/status/${listId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ isDone: !isDone }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update list status');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('List status updated successfully:', data);
+        // Handle success, if needed
+      })
+      .catch(error => {
+        console.error('Error updating list status:', error);
+        // Handle error, if needed
+      });
     }
+
 
     function saveEdit(event) {
       const listItem = event.target.closest('li');
       listItem.querySelector('span.me-auto').classList.remove('d-none');
       listItem.querySelector('form.d-none').classList.add('d-none');
     }
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the input and buttons
+      const groupInput = document.getElementById("groupInput");
+      const submitButton = document.querySelector('.btn-success');
+      const editButton = document.getElementById("button-addon2");
+
+      // Add click event listener to the edit button
+      editButton.addEventListener("click", function() {
+        // Toggle readonly attribute of the input
+        groupInput.readOnly = !groupInput.readOnly;
+
+        // Toggle visibility of the submit button
+        submitButton.classList.toggle('d-none');
+      });
+    });
