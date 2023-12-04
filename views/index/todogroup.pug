@@ -8,28 +8,27 @@ block content
         .card-body
           form.text-center(action=`/edit-group/${group._id}?_method=put`, method="post")
             .input-group.input-group-sm
-              input#groupInput.form-control(type="text" value=group.name name="nameGroup" readonly aria-describedby="button-addon2")
-              button.d-none.btn.btn-success.btn-sm(type="submit") บันทึก
+              input#groupInput.form-control(type="text" autocomplete="off" value=group.name name="nameGroup" readonly aria-describedby="button-addon2")
+              button.d-none.btn.btn-success.btn-sm.me-1(type="submit") บันทึก
               button.btn.btn-secondary.btn-sm(type="button" id="button-addon2")
                 i.bi.bi-pencil
         .card-body
-          form(action="/updateGroup", method="post")
-          form.text-center(action=`/todos/${nameGroup}`, method="post")
-            input.form-control(type="text" name="text" placeholder="ระบุรายการ..." required)
+          form.text-center(action=`/todos/${group._id}`, method="post")
+            input.form-control(type="text" autocomplete="off" name="text" placeholder="ระบุรายการ..." required)
             button.btn.btn-primary.mt-3 เพิ่มรายการ
           .card-body
             ul.list-group
               each list in lists
                 li.list-group-item.d-flex.align-items-center
-                  //ตรงนี้ มีปัญหา ต้องแก้ไข
-                  //- input.form-check-input(type="checkbox", id=`toggle-${list._id}`, onchange=`toggleStatus('${list._id}', ${list.isDone})`, checked=list.isDone)
-                  //- label.form-check-label(for=`toggle-${list._id}`, class="btn btn-sm btn-outline-primary")= list.isDone ? '1' : '0'
+                  div
+                    a.btn( class=`btn-sm ${list.isDoneId !== null ? 'btn-success' : 'btn-outline-success'} me-1` href=`/update-list/status/${list._id}`)
+                      i.bi.bi-check
                   span.me-auto=list.body
                   form.d-none.me-auto(action=`/todos/${list._id}?_method=put` method="post")
                     .input-group
-                      input.form-control.form-control-sm(type="text" name="text" value=list.body)
+                      input.form-control.form-control-sm(type="text" autocomplete="off" name="text" value=list.body)
                       button.btn.btn-success.btn-sm(type="submit") บันทึก
-                  button.btn.btn-secondary.btn-sm.me-1(type="button" onclick="editTodo(event)") แก้ไข
+                  button.btn.btn-secondary.btn-sm.me-1(type="button" class={ 'd-none': list.isDone } onclick="editTodo(event)") แก้ไข
                   form(action=`/todos/${list._id}?_method=delete`, method="post")
                     button.btn.btn-danger.btn-sm ลบ
   script.
@@ -38,32 +37,6 @@ block content
       listItem.querySelector('span.me-auto').classList.add('d-none');
       listItem.querySelector('form.d-none').classList.remove('d-none');
     }
-
-    function toggleStatus(listId, isDone) {
-    // Make an AJAX request to update the server
-    fetch(`/update-list/status/${listId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ isDone: !isDone }),
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to update list status');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('List status updated successfully:', data);
-        // Handle success, if needed
-      })
-      .catch(error => {
-        console.error('Error updating list status:', error);
-        // Handle error, if needed
-      });
-    }
-
 
     function saveEdit(event) {
       const listItem = event.target.closest('li');
@@ -83,5 +56,12 @@ block content
 
         // Toggle visibility of the submit button
         submitButton.classList.toggle('d-none');
+
+        // Toggle the button color and icon
+        editButton.classList.toggle('btn-secondary');
+        editButton.classList.toggle('btn-danger');
+        editButton.querySelector('i').classList.toggle('bi-pencil');
+        editButton.querySelector('i').classList.toggle('bi-x');
       });
     });
+

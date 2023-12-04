@@ -1,0 +1,15 @@
+extends ../_layouts/feed
+
+block content
+  h1.h3 All listgroups
+  .row
+    each group in groups
+      .col-12.col-md-6
+        .card.mb-3
+          .card-body
+            h5.card-title= group.name
+            p.card-text= group.description
+            .d-flex
+              a.btn.btn-primary.me-2(href=`/${group._id}`) รายละเอียด
+              form(action=`/delete-group/${group._id}?_method=delete`, method="post")
+                button.btn.btn-danger(type="submit") ลบ

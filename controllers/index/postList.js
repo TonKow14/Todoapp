@@ -3,9 +3,11 @@ const Lists = require('../../Models/Lists')
 const { DateTime } = require('luxon')
 
 module.exports = async (req, res) => {
-  const { text, groupName } = req.body
+  const groupId = req.params.groupId
+  console.log(groupId)
+  const { text } = req.body
 
-  let group = await Groups.findOne({ name: groupName })
+  let group = await Groups.findOne({ name: groupId })
 
   // Check if group exists, if not, create a new one
   if (!group) {

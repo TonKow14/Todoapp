@@ -10,10 +10,10 @@ const schema = new Schema({
     ref: 'Groups',
     required: true
   },
-  isDone: {
-    type: Boolean,
-    default: false
-  }
+  isDoneId: {
+    type: Schema.Types.ObjectId,
+    ref: 'IsDone',
+  },
 }, { timestamps: true })
 
 module.exports = model('Lists', schema)

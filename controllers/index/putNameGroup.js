@@ -2,9 +2,8 @@ const Groups = require('../../Models/Groups');
 
 // update name group
 module.exports = async (req, res) => {
-  const groupId = req.params.groupId;
-  const newNameGroup = req.body.nameGroup;
-  console.log(groupId);
+  const groupId = req.params.groupId
+  const newNameGroup = req.body.nameGroup
   try {
     const updatedGroup = await Groups.findByIdAndUpdate(
       groupId,
@@ -13,12 +12,12 @@ module.exports = async (req, res) => {
     );
 
     if (!updatedGroup) {
-      return res.send('List not found');
+      return res.send('List not found')
     }
 
-    res.redirect('back');
+    res.redirect('back')
   } catch (err) {
-    req.flash('error', err.message);
-    res.redirect('/error-page');
+    req.flash('error', err.message)
+    res.redirect('/error-page')
   }
 };

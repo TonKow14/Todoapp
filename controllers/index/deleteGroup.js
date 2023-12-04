@@ -1,17 +1,13 @@
-const IsDones = require('../../Models/IsDones');
-const Lists = require('../../Models/Lists');
+const Groups = require('../../Models/Groups');
 
-// /todos/${list._id}?_method=delete
 module.exports = async (req, res) => {
-  const listId = req.params.listId
-
+  const { groupId } = req.params
   try {
     // Delete the list from the database
     // Assuming you have a model called Lists and use Mongoose
-    const deletedList = await Lists.findByIdAndDelete(listId)
-    await IsDones.deleteOne({ listId })
+    const deletedGroup = await Groups.findByIdAndDelete(groupId)
 
-    if (!deletedList && !IsDones ) {
+    if (!deletedGroup) {
       // Handle case where the list with the given ID is not found
       return res.send('List not found');
     }
