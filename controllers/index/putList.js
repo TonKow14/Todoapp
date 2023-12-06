@@ -21,6 +21,6 @@ module.exports = async (req, res) => {
     res.redirect('back');
   } catch (err) {
     req.flash('error', err.message)
-    res.redirect('/error-page'); // Handle error redirection
+    res.redirect('/back'); // Handle error redirection
   }
 }

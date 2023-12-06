@@ -6,18 +6,18 @@ module.exports = [
   (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
       if (err) {
-        req.flash('error', err.message);
-        return res.redirect('/auth/login');
+        req.flash('error', err.message)
+        return res.redirect('/auth/login')
       }
       if (!user) {
-        req.flash('error', info.message);
-        return res.redirect('/auth/login');
+        req.flash('error', info.message)
+        return res.redirect('/auth/login')
       }
       req.login(user, (err) => {
-        if (err) return next(err);
+        if (err) return next(err)
         // Redirect to '/' upon successful login
-        return res.redirect('/');
+        return res.redirect('/')
       });
-    })(req, res, next);
+    })(req, res, next)
   }
 ];

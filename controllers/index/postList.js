@@ -4,7 +4,6 @@ const { DateTime } = require('luxon')
 
 module.exports = async (req, res) => {
   const groupId = req.params.groupId
-  console.log(groupId)
   const { text } = req.body
 
   let group = await Groups.findOne({ name: groupId })

@@ -6,8 +6,6 @@ module.exports = async (req, res) => {
   const listId = req.params.listId
 
   try {
-    // Delete the list from the database
-    // Assuming you have a model called Lists and use Mongoose
     const deletedList = await Lists.findByIdAndDelete(listId)
     await IsDones.deleteOne({ listId })
 
@@ -19,6 +17,6 @@ module.exports = async (req, res) => {
     res.redirect('back')
   } catch (err) {
     req.flash('error', err.message)
-    res.redirect('/error-page') // Handle error redirection
+    res.redirect('back')
   }
 }

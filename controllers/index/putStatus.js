@@ -3,7 +3,7 @@ const Lists = require('../../Models/Lists');
 
 // Route to handle the list status update
 module.exports = async (req, res) => {
-  const { listId } = req.params;
+  const { listId } = req.params
 
   try {
     const list = await Lists.findOne({ _id: listId })
@@ -22,7 +22,8 @@ module.exports = async (req, res) => {
     await list.updateOne({ isDoneId: newIsDone._id })
     res.redirect(`/${list.groupId}`)
   } catch (error) {
-    console.error('Error updating list status:', error);
-    res.status(500).json({ error: 'Internal Server Error' })
+    console.error('Error updating list status:', error)
+    req.flash('error', error.message)
+    res.status(500).redirect('back')
   }
 }

@@ -13,6 +13,7 @@ const schema = new Schema({
   isDoneId: {
     type: Schema.Types.ObjectId,
     ref: 'IsDone',
+    default: null
   },
 }, { timestamps: true })
 

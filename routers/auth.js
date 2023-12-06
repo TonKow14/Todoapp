@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const  guestOnly = require('../middlewares/guestOnly')
-const authOnly = require('../middlewares/authOnly')
 
 
 router.get('/login',  require('../controllers/auth/getLogin'))

@@ -21,7 +21,7 @@ block content
               each list in lists
                 li.list-group-item.d-flex.align-items-center
                   div
-                    a.btn( class=`btn-sm ${list.isDoneId !== null ? 'btn-success' : 'btn-outline-success'} me-1` href=`/update-list/status/${list._id}`)
+                    a.btn(class=`btn-sm ${list.isDoneId !== null ? 'btn-success' : 'btn-outline-success'} me-1` href=`/update-list/status/${list._id}`)
                       i.bi.bi-check
                   span.me-auto=list.body
                   form.d-none.me-auto(action=`/todos/${list._id}?_method=put` method="post")
