@@ -1,0 +1,33 @@
+extends ../_layouts/feed
+
+block content
+  .card
+    .card-body.shadow-sm
+      h1 แก้ไขโปรไฟล์
+      hr
+      form.row(action="/profile/edit?_method=put" method="post" enctype="multipart/form-data" )
+        .col-12.col-md-6.text-center
+          img.rounded-circle.shadow(src=auth.avatarUrl alt=auth._id).mb-4
+          .input-group
+            label.input-group-text(for="Profile") รูปโปรไฟล์
+            input.form-control(type="file" name="avatar" id="Profile" accept="image/*")
+        .col-12.col-md-6
+          .input-group.mt-4
+            span.input-group-text(id="usernameinput") ชื่อผู้ใช้
+            input.form-control(type="text" id="usernameinput" name="username" maxlength="50" value=auth.username)
+          .input-group.mt-4
+            span.input-group-text(id="InputBirthdate") วันเกิด
+            input.form-control(type="date" id="InputBirthdate" name="birthdate" value= auth.birthdate.toISOString().slice(0,10))
+          .input-group.mt-4
+            label.form-label.me-3 เพศ
+            .form-check.form-check-inline
+              input.form-check-input(type="radio" id="inputGender1" name="gender" value="Male" checked=auth.gender === 'Male')
+              label.form-check-label(for="inputGender1") ชาย
+            .form-check.form-check-inline
+              input.form-check-input(type="radio" id="inputGender" name="gender" value="Female" checked=auth.gender === 'Female')
+              label.form-check-label(for="inputGender1") หญิง
+            .form-check.form-check-inline
+              input.form-check-input(type="radio" id="inputGender" name="gender" value="Other" checked=auth.gender === 'Other')
+              label.form-check-label(for="inputGender1") อื่นๆ
+        .col-12.d-flex.justify-content-end
+         button.btn.btn-success บันทึก

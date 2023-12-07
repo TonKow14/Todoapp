@@ -20,9 +20,9 @@ module.exports = async (req, res) => {
   lists.sort((a, b) => {
     // If isDoneId is null, move it to the front
     if (a.isDoneId === null && b.isDoneId !== null) {
-      return -1;
+      return -1
     } else if (a.isDoneId !== null && b.isDoneId === null) {
-      return 1;
+      return 1
     }
 
     // Sort by createdAt: -1 for items with non-null isDoneId

@@ -1,8 +1,4 @@
-// const authOnly = require('../middlewares/authOnly')
-
 const router = require('express').Router()
-
-// router.use(authOnly)
 
 router.get('/', require('../controllers/index/getindex'))
 // group ทั้งหมด
