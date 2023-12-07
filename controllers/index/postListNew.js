@@ -7,22 +7,19 @@ module.exports = async (req, res) => {
 
   const { text } = req.body
   try {
-    // Find the group based on the name
     const group = await Groups.findOne({ _id: new ObjectId(groupId) })
     if (!group) {
-      // If the group doesn't exist, you may want to handle this case accordingly
-      console.error(`Group '${groupId}' not found`);
-      return res.status(404).redirect('back');
+      req.flash('error', 'Group not found')
+      return res.status(404).redirect('back')
     }
 
-    // Create a new list with the found group's ID
+    // สร้างรายการใหม่ด้วยรหัสของกลุ่มที่พบ
     const newList = new Lists({ body: text, groupId: group._id })
     await newList.save()
 
-    // Redirect to the group's path
     return res.redirect(`/${group._id}`)
   } catch (error) {
-    console.error(error);
+    console.error(error)
     return res.status(500).redirect('/')
   }
-};
+}

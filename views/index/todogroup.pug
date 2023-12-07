@@ -33,35 +33,35 @@ block content
                     button.btn.btn-danger.btn-sm ลบ
   script.
     function editTodo(event) {
-      const listItem = event.target.closest('li');
-      listItem.querySelector('span.me-auto').classList.add('d-none');
-      listItem.querySelector('form.d-none').classList.remove('d-none');
+      const listItem = event.target.closest('li')
+      listItem.querySelector('span.me-auto').classList.add('d-none')
+      listItem.querySelector('form.d-none').classList.remove('d-none')
     }
 
     function saveEdit(event) {
-      const listItem = event.target.closest('li');
-      listItem.querySelector('span.me-auto').classList.remove('d-none');
-      listItem.querySelector('form.d-none').classList.add('d-none');
+      const listItem = event.target.closest('li')
+      listItem.querySelector('span.me-auto').classList.remove('d-none')
+      listItem.querySelector('form.d-none').classList.add('d-none')
     }
     document.addEventListener("DOMContentLoaded", function() {
-      // Get the input and buttons
-      const groupInput = document.getElementById("groupInput");
-      const submitButton = document.querySelector('.btn-success');
-      const editButton = document.getElementById("button-addon2");
+      // รับอินพุตและปุ่ม
+      const groupInput = document.getElementById("groupInput")
+      const submitButton = document.querySelector('.btn-success')
+      const editButton = document.getElementById("button-addon2")
 
-      // Add click event listener to the edit button
+      // เพิ่มตัวฟังเหตุการณ์การคลิกลงในปุ่มแก้ไข
       editButton.addEventListener("click", function() {
-        // Toggle readonly attribute of the input
-        groupInput.readOnly = !groupInput.readOnly;
+        // สลับแอตทริบิวต์แบบอ่านอย่างเดียวของอินพุต
+        groupInput.readOnly = !groupInput.readOnly
 
-        // Toggle visibility of the submit button
-        submitButton.classList.toggle('d-none');
+        // สลับการเปิดเผยปุ่มส่ง
+        submitButton.classList.toggle('d-none')
 
-        // Toggle the button color and icon
-        editButton.classList.toggle('btn-secondary');
-        editButton.classList.toggle('btn-danger');
-        editButton.querySelector('i').classList.toggle('bi-pencil');
-        editButton.querySelector('i').classList.toggle('bi-x');
-      });
-    });
+        // สลับสีปุ่มและไอคอน
+        editButton.classList.toggle('btn-secondary')
+        editButton.classList.toggle('btn-danger')
+        editButton.querySelector('i').classList.toggle('bi-pencil')
+        editButton.querySelector('i').classList.toggle('bi-x')
+      })
+    })
 

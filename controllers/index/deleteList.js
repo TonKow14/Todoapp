@@ -10,8 +10,7 @@ module.exports = async (req, res) => {
     await IsDones.deleteOne({ listId })
 
     if (!deletedList && !IsDones ) {
-      // Handle case where the list with the given ID is not found
-      return res.send('List not found');
+      return res.send('List not found')
     }
 
     res.redirect('back')

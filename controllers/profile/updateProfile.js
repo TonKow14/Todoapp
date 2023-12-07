@@ -20,9 +20,9 @@ module.exports = [
       await fs.promises.unlink(req.file.path)
       req.user.avatarUrl = avatarUrl
     }
-    req.user.displayName = req.body.displayName
+    req.user.username = req.body.username
     req.user.gender = req.body.gender
-    req.user.birthDate = req.body.birthDate
+    req.user.birthdate = req.body.birthdate
     await req.user.save()
     req.flash('success', 'บันทึกข้อมูลเสร็จสิ้น')
     res.redirect('/profile/edit')

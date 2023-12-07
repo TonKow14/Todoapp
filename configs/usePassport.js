@@ -1,47 +1,23 @@
 const passport = require('passport')
-// const localPassport = require('./localPassport')
+const localPassport = require('./localPassport')
+const facebookStrategy = require('./facebookPassport')
 const Users = require('../Models/Users')
-const LocalStrategy = require('passport-local').Strategy
+const googleStrategy = require('./googlePassport')
 
-// passport.use(localPassport)
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password',
-  session: true
-},
-async (email, password, done) => {
-  try {
-    const user = await Users.findOne({ email })
-    if (!user) {
-      throw new Error('อีเมลหรือรหัสผ่านไม่ถูกต้อง')
-    }
-    await user.comparePassword(password)
-    return done(null, user)
-  } catch (error) {
-    return done(error)
-  }
-}))
+passport.use(localPassport)
+passport.use(facebookStrategy)
+passport.use(googleStrategy)
 
-function fiedsInfoUser(user) {
-  return {
-    _id: user._id,
-    username: user.username,
-    avatarUrl: user.avatarUrl,
-    birthdate: user.birthdate,
-  }
-}
 
 // Save user id to session
 passport.serializeUser((user, done) => {
-  const fiedsUser = fiedsInfoUser(user)
-  return done(null, user)
+  return done(null, user._id)
 })
 
-// Retrieve user from session using user id
+// ดึงข้อมูลผู้ใช้จากเซสชันโดยใช้รหัสผู้ใช้
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await Users.findById(id)
-    const fiedsUser = fiedsInfoUser(user)
+    const user = await Users.findById(id).select('-password -createdAt -updatedAt -__v -oauth')
     return done(null, user)
   } catch (error) {
     return done(error)

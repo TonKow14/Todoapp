@@ -1,7 +1,7 @@
-const IsDones = require('../../Models/IsDones');
-const Lists = require('../../Models/Lists');
+const IsDones = require('../../Models/IsDones')
+const Lists = require('../../Models/Lists')
 
-// Route to handle the list status update
+// การอัปเดตสถานะรายการ
 module.exports = async (req, res) => {
   const { listId } = req.params
 

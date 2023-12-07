@@ -7,17 +7,24 @@ block content
       hr
       form.row(action="/profile/edit?_method=put" method="post" enctype="multipart/form-data" )
         .col-12.col-md-6.text-center
-          img.rounded-circle.shadow(src=auth.avatarUrl alt=auth._id).mb-4
+          if !auth.avatarUrl
+            img.rounded-circle.shadow(src="https://via.placeholder.com/150x150" alt=auth._id).mb-4
+          else
+            img.rounded-circle.shadow(src=auth.avatarUrl alt=auth._id).mb-4
           .input-group
             label.input-group-text(for="Profile") รูปโปรไฟล์
             input.form-control(type="file" name="avatar" id="Profile" accept="image/*")
+
         .col-12.col-md-6
           .input-group.mt-4
             span.input-group-text(id="usernameinput") ชื่อผู้ใช้
             input.form-control(type="text" id="usernameinput" name="username" maxlength="50" value=auth.username)
           .input-group.mt-4
             span.input-group-text(id="InputBirthdate") วันเกิด
-            input.form-control(type="date" id="InputBirthdate" name="birthdate" value= auth.birthdate.toISOString().slice(0,10))
+            if auth.birthdate == null || auth.birthdate == undefined
+              input.form-control(type="date" id="InputBirthdate" name="birthdate")
+            else
+              input.form-control(type="date" id="InputBirthdate" name="birthdate" value= auth.birthdate.toISOString().slice(0,10))
           .input-group.mt-4
             label.form-label.me-3 เพศ
             .form-check.form-check-inline
@@ -31,3 +38,24 @@ block content
               label.form-check-label(for="inputGender1") อื่นๆ
         .col-12.d-flex.justify-content-end
          button.btn.btn-success บันทึก
+  .card.mt-2
+    .card-body.shadow-sm
+      h2 เชื่อมต่อบัญชี
+      hr
+      .row
+        .col-12.col-md-6
+          ul
+            li #{user.oauth.facebook ? 'บัญชีนี้ได้ผูกกับ Facebook' : 'บัญชีนี้ไม่ได้มีการผูกกับ Facebook'}
+            li #{user.oauth.google ? 'บัญชีนี้ได้ผูกกับ Google' : 'บัญชีนี้ไม่ได้มีการผูกกับ Google'}
+
+        .col-12.col-md-6
+          if !user.oauth.facebook
+            a.d-block.btn.btn-primary(href="/auth/facebook") ผูกบัญชีกับ Facebook
+          else
+            form(action="/auth/facebook/unlink?_method=put", method="post")
+              button.d-block.btn.btn-danger ยกเลิกผูกบัญชีกับ Facebook
+          if !user.oauth.google
+            a.d-block.btn.btn-primary.mt-2(href="/auth/google") ผูกบัญชีกับ Google
+          else
+            form(action="/auth/google/unlink?_method=put", method="post")
+              button.d-block.btn.btn-danger.mt-2 ยกเลิกผูกบัญชีกับ Google

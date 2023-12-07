@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
 
   let group = await Groups.findOne({ name: groupId })
 
-  // Check if group exists, if not, create a new one
+  // ตรวจสอบว่ามีกลุ่มอยู่หรือไม่ ถ้าไม่มี ให้สร้างกลุ่มใหม่
   if (!group) {
     const formatTime = DateTime.now().toFormat('dd-MM-yyyy HH:mm:ss')
     group = new Groups({ name: `New Group_${formatTime}`, userId: req.user._id })

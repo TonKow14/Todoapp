@@ -10,20 +10,18 @@ const schema = new Schema({
   },
   password: {
     type: String,
-    required: true
   },
   avatarUrl: {
     type: String,
     get(url) {
       if (!url) {
-        return 'pulic/img/default-avatar.png'
+        return 'https://via.placeholder.com/150x150'
       }
       return url
     }
   },
   username: {
     type: String,
-    required: true
   },
   gender: {
     type: String,
@@ -32,7 +30,10 @@ const schema = new Schema({
   },
   birthdate: {
     type: Date,
-    required: true
+  },
+  oauth: {
+    facebook: String,
+    google: String
   }
 },{ timestamps: true })
 

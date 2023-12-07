@@ -45,10 +45,12 @@ app.use(passport.session())
 app.use(require('./middlewares/alertGlobal')) // alert flash message global
 app.use('/public', express.static(path.join(__dirname, './public')))
 
+
 // Routers
 app.use('/', require('./routers/index'))
 app.use('/auth', require('./routers/auth'))
 app.use('/profile', require('./routers/profile'))
+
 
 const startApp = async () => {
   try {

@@ -1,6 +1,6 @@
-const Groups = require('../../Models/Groups');
+const Groups = require('../../Models/Groups')
 
-// update name group
+// อัพเดตชื่อกลุ่ม
 module.exports = async (req, res) => {
   const groupId = req.params.groupId
   const newNameGroup = req.body.nameGroup
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       groupId,
       { name: newNameGroup },
       { new: true }
-    );
+    )
 
     if (!updatedGroup) {
       return res.send('List not found')
@@ -20,4 +20,4 @@ module.exports = async (req, res) => {
     req.flash('error', err.message)
     res.redirect('back')
   }
-};
+}

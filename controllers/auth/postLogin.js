@@ -1,23 +1,24 @@
-const passport = require('../../configs/usePassport');
-const validateLogin = require('../../validations/Login');
+const passport = require('passport')
 
-module.exports = [
-  validateLogin,
-  (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+module.exports = (strategyName) => (req, res, next) => {
+  passport.authenticate(strategyName, (err, user, info) => {
+    if (err) {
+      return next(err)
+    }
+    if (!user) {
+      req.flash('error', info)
+      return res.redirect(req.user ? '/' : '/login')
+    }
+    if (req.user) {
+      req.flash('success', 'คุณได้ผูกบัญชีแล้ว')
+      return res.redirect('/')
+    }
+    req.login(user, (err) => {
       if (err) {
-        req.flash('error', err.message)
-        return res.redirect('/auth/login')
+        return next(err)
       }
-      if (!user) {
-        req.flash('error', info.message)
-        return res.redirect('/auth/login')
-      }
-      req.login(user, (err) => {
-        if (err) return next(err)
-        // Redirect to '/' upon successful login
-        return res.redirect('/')
-      });
-    })(req, res, next)
-  }
-];
+      req.flash('success', 'คุณได้เข้าสู่ระบบ')
+      res.redirect('/')
+    })
+  })(req, res, next)
+}

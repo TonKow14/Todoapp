@@ -6,26 +6,24 @@ module.exports = async (req, res) => {
   const { groupId } = req.params
 
   try {
-    // Find and delete the group
+    // ค้นหาและลบกลุ่ม
     const deletedGroup = await Groups.findByIdAndDelete(groupId)
 
     if (!deletedGroup) {
       return res.send('Group not found')
     }
 
-    // Find all lists with the corresponding groupId and get their listIds
+    // ค้นหารายการทั้งหมดที่มี groupId ที่เกี่ยวข้องและรับ listIds
     const deletedLists = await Lists.find({ groupId: deletedGroup._id })
-    const listIds = deletedLists.map(list => list._id);
+    const listIds = deletedLists.map(list => list._id)
 
-    // Delete all lists with the corresponding groupId
+    // ลบรายการทั้งหมดที่เกี่ยวข้อง
     await Lists.deleteMany({ groupId: deletedGroup._id })
-
-    // Delete IsDones data related to the listIds
     await IsDones.deleteMany({ listId: { $in: listIds } })
 
     res.redirect('back')
   } catch (err) {
     req.flash('error', err.message)
-    res.redirect('back'); // Handle error redirection
+    res.redirect('back')
   }
 }

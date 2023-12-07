@@ -1,12 +1,20 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container
-    a.navbar-brand(href="/") Myapp
+    if auth
+      a.navbar-brand(href="/") Myapp
+    else
+      a.navbar-brand(href="/auth/login") Myapp
     button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarContents")
       span.navbar-toggler-icon
     #navbarContents.collapse.navbar-collapse
-      ul.navbar-nav.me-auto.mb-2.mb-lg-0
-        li.nav-item
-          a.nav-link(href="/allGroups") All groups
+      if auth
+        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+          li.nav-item
+            a.nav-link(href="/allGroups") All groups
+          li.nav-item
+            a.nav-link(href="/") New list
+      else
+        div.me-auto
       ul.navbar-nav
         if !auth
           li.nav-item
@@ -18,9 +26,13 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
             a.nav-link.dropdown-toggle.pointer.unselectable(data-bs-toggle="dropdown")= auth.username
             ul.dropdown-menu
               li
-                a.dropdown-item.no-copy(href=`/profile/${auth.username}`) โปรไฟล์
+                a.dropdown-item.no-copy(href=`/profile/${auth.username}`)
+                  i.bi.bi-gear-wide-connected.me-2
+                  span ตั้งค่าบัญชี
               li
                 hr.dropdown-divider
               li
-                a.dropdown-item(href="/auth/logout") ออกจากระบบ
+                a.dropdown-item(href="/auth/logout")
+                  i.bi.bi-box-arrow-right.me-2
+                  span ออกจากระบบ
 
