@@ -1,5 +1,5 @@
 node_modules/
-.env.prod
+.env
 temp/*
 !temp/.gitkeep
 public/avatars/*
